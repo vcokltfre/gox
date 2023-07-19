@@ -17,7 +17,7 @@ type validationError struct {
 	Errors []validationErrorField `json:"errors"`
 }
 
-func (g *Gox) Validate(to any, c echo.Context) bool {
+func Validate(to any, c echo.Context) bool {
 	if err := c.Bind(to); err != nil {
 		c.JSON(400, validationError{
 			Errors: []validationErrorField{},
