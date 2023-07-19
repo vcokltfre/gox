@@ -22,6 +22,8 @@ func New() *Gox {
 		models: []any{},
 	}
 
+	gox.HideBanner = true
+
 	gox.goxLogger = logrus.New()
 	gox.goxLogger.SetFormatter(&logrus.TextFormatter{
 		FullTimestamp: true,
