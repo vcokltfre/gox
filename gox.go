@@ -16,18 +16,20 @@ type Gox struct {
 	DB     *gorm.DB
 	models []any
 
-	templates    map[string]*template.Template
-	templateLock *sync.Mutex
+	templateFunctions template.FuncMap
+	templates         map[string]*template.Template
+	templateLock      *sync.Mutex
 
 	goxLogger *logrus.Logger
 }
 
 func New() *Gox {
 	gox := &Gox{
-		Echo:         echo.New(),
-		models:       []any{},
-		templates:    map[string]*template.Template{},
-		templateLock: &sync.Mutex{},
+		Echo:              echo.New(),
+		models:            []any{},
+		templateFunctions: template.FuncMap{},
+		templates:         map[string]*template.Template{},
+		templateLock:      &sync.Mutex{},
 	}
 
 	gox.HideBanner = true

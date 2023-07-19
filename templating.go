@@ -12,6 +12,10 @@ import (
 
 var populateRe = regexp.MustCompile(`<meta name="populate" content="(\w+:\w+)" ?\/?>`)
 
+func (g *Gox) AddTemplateFunction(name string, fn any) {
+	g.templateFunctions[name] = fn
+}
+
 func (g *Gox) AddTemplates(dir fs.FS, names map[string]string) {
 	g.templateLock.Lock()
 	defer g.templateLock.Unlock()
@@ -38,6 +42,8 @@ func (g *Gox) AddTemplates(dir fs.FS, names map[string]string) {
 				return template.HTML(buf.String())
 			},
 		})
+
+		tmpl.Funcs(g.templateFunctions)
 
 		f, err := dir.Open(path)
 		if err != nil {
