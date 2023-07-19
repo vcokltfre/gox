@@ -35,3 +35,11 @@ func New() *Gox {
 
 	return gox
 }
+
+type GoxHandlerFunc func(echo.Context, *Gox) error
+
+func (g *Gox) WithGox(handler GoxHandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		return handler(c, g)
+	}
+}
