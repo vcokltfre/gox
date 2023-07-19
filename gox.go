@@ -1,6 +1,9 @@
 package gox
 
 import (
+	"html/template"
+	"sync"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
@@ -13,13 +16,18 @@ type Gox struct {
 	DB     *gorm.DB
 	models []any
 
+	templates    map[string]*template.Template
+	templateLock *sync.Mutex
+
 	goxLogger *logrus.Logger
 }
 
 func New() *Gox {
 	gox := &Gox{
-		Echo:   echo.New(),
-		models: []any{},
+		Echo:         echo.New(),
+		models:       []any{},
+		templates:    map[string]*template.Template{},
+		templateLock: &sync.Mutex{},
 	}
 
 	gox.HideBanner = true
